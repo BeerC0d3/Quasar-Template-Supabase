@@ -19,18 +19,21 @@ export default function useUserAuth() {
     return user;
   };
 
-  // const userRegister = async ({ email, password, ...meta }) => {
-  //   const { data, error } = await supabase.auth.signUp({
-  //     email,
-  //     password,
-  //     options: {
-  //       emailRedirectTo: 'https://example.com/welcome',
-  //     },
-  //   });
+  const userSignUp = async (modelUserAuth: IUserAuth) => {
+    const { data, error } = await supabase.auth.signUp({
+      email: modelUserAuth.email,
+      password: modelUserAuth.password,
+      options: {
+        data: {
+          name: modelUserAuth.name,
+        },
+      },
+    });
 
-  //   if (error) throw error;
-  //   return user;
-  // };
+    if (error) throw error;
 
-  return { user, userSignIn };
+    user.value = data;
+    return user;
+  };
+  return { user, userSignIn, userSignUp };
 }

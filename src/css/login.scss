@@ -1,0 +1,71 @@
+.auth-header {
+  position: relative;
+  background-color: #2c5291;
+  height: 40vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 1001;
+}
+.auth-form {
+  background-color: rgba(255, 255, 255);
+  border: 1px solid rgba(255, 255, 255);
+  border-radius: 15px 15px 15px 15px;
+  margin-top: -120px;
+  padding-top: 35px;
+  padding-bottom: 40px;
+  position: relative;
+  width: 100%;
+  z-index: 1002;
+}
+.auth-header .img {
+  position: absolute;
+  right: 20px;
+  bottom: -20px;
+  z-index: 1;
+  width: calc(115px + 10 * (100vw - 320px) / 447);
+}
+.container-template {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+.auth-header .auth-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  color: #ffc502;
+  padding: 0 20px 40px;
+}
+.card-icon-message {
+  position: absolute;
+  z-index: 1005;
+  margin-bottom: -70px;
+  /* left: 25%;
+  right: 25%; */
+  background-color: #fff;
+  padding: 5px;
+  margin-left: 40%;
+  min-height: 1.4em;
+  min-width: 1.4em;
+  border-radius: 50%;
+}
+.border-modal-message {
+  border-radius: 20px !important;
+}
+.bg-btn {
+  background: rgb(131, 58, 180) !important;
+  background: linear-gradient(
+    90deg,
+    rgba(131, 58, 180, 1) 0%,
+    rgba(253, 29, 29, 1) 4%,
+    rgba(252, 176, 69, 1) 100%
+  ) !important;
+}

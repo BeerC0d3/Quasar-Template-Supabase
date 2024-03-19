@@ -27,7 +27,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['axios', 'supabase'],
+    boot: ['axios', 'supabase', 'global-components'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.scss'],
@@ -90,7 +90,20 @@ module.exports = configure(function (/* ctx */) {
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework
     framework: {
-      config: {},
+      config: {
+        brand: {
+          primary: '#3B5999',
+          secondary: '#DE4B39',
+          accent: '#5ab3c7',
+
+          dark: '#1d1d1d',
+
+          positive: '#27a85f',
+          negative: '#C10015',
+          info: '#32edcb',
+          warning: '#F2C037',
+        },
+      },
 
       // iconSet: 'material-icons', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
@@ -106,9 +119,10 @@ module.exports = configure(function (/* ctx */) {
       plugins: [],
     },
 
-    // animations: 'all', // --- includes all animations
+    animations: 'all', // --- includes all animations
     // https://v2.quasar.dev/options/animations
-    animations: [],
+    // animations: ['slideInRight', 'slideOutRight', 'fadeIn', 'fadeOut'],
+    //animations: [],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#sourcefiles
     // sourceFiles: {

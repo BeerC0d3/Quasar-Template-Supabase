@@ -1,20 +1,23 @@
 export default [
   {
-    path: '/auth',
+    path: '/',
+    beforeEnter: (to: any, from: any, next: any) => {
+      to.fullPath === '/' ? next('/auth') : next();
+    },
     component: () => import('../layouts/LayoutLogin.vue'),
+    meta: { requireLogin: false },
     children: [
       {
-        name: 'Page Login',
-        path: 'login',
-        component: () => import('../pages/Login.vue'),
+        path: '/auth',
+        component: () => import('../pages/AuthPage.vue'),
+        children: [
+          { path: 'login', component: () => import('../pages/Login.vue') },
+          {
+            path: 'register',
+            component: () => import('../pages/userSignUp.vue'),
+          },
+        ],
       },
-      // {
-      //   path: 'activation',
-      //   component: () => import('../layouts/MainLayout.vue'),
-      //   children: [
-      //     { path: '', component: () => import('../pages/Activation.vue') },
-      //   ],
-      // },
     ],
   },
 ];

@@ -4,10 +4,10 @@ export const addBeforeEach = (Router: any) => {
   // const store = useUserStore();
   Router.beforeEach(async (to: any, from: any, next: any) => {
     const destination = to.name;
-    const requiresLogin = true;
+    //const requiresLogin = true;
     const isAuthenticated = false;
 
-    // const requiresLogin = to.meta.requireLogin;
+    const requiresLogin = to.meta.requireLogin;
     // const isAuthenticated = store.isAuthenticated;
 
     if (destination === 'Page Login') {

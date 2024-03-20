@@ -65,7 +65,7 @@
                     label="Olvidé mi contraseña"
                     class="full-width text-weight-bolder text-grey-13"
                     flat
-                    :to="{ name: 'forgot-password' }"
+                    @click="loadingTest"
                   />
                 </div>
               </div>
@@ -89,12 +89,16 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useCommonStore } from 'src/stores/all';
 import { IUserAuth } from '../Models/IUserAuth';
 import useUserAuth from 'src/auth/composables/userAuth';
 import useModelMessage from 'src/Composables/ModalMessage';
 
 const { userSignIn } = useUserAuth();
 const { Show, Hide, GetModal } = useModelMessage();
+const $commonStore = useCommonStore();
+const $router = useRouter();
 
 const formLogin = ref<IUserAuth>({
   name: '',
@@ -102,11 +106,18 @@ const formLogin = ref<IUserAuth>({
   password: '',
 });
 
+const loadingTest = () => {
+  $commonStore.Add_Request();
+};
+
 const handleLogin = async () => {
   try {
+    //  $commonStore.Add_Request();
     await userSignIn(formLogin.value);
-    console.log('login con exito');
+    $router.push('/app');
+    //console.log('login con exito');
   } catch (error: any) {
+    $commonStore.Remove_Request();
     Show('ERROR', 'Error', error);
   }
 };

@@ -1,11 +1,13 @@
 // import { useUserStore } from 'src/stores/all';
+import useAuthUser from 'src/auth/composables/userAuth';
 
 export const addBeforeEach = (Router: any) => {
   // const store = useUserStore();
   Router.beforeEach(async (to: any, from: any, next: any) => {
+    const { isLoggedIn } = useAuthUser();
     const destination = to.name;
     //const requiresLogin = true;
-    const isAuthenticated = false;
+    const isAuthenticated = isLoggedIn();
 
     const requiresLogin = to.meta.requireLogin;
     // const isAuthenticated = store.isAuthenticated;

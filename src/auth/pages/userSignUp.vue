@@ -94,9 +94,11 @@ import { ref, onMounted } from 'vue';
 import { IUserAuth } from '../Models/IUserAuth';
 import useUserAuth from 'src/auth/composables/userAuth';
 import useModelMessage from 'src/Composables/ModalMessage';
+import { useCommonStore } from 'src/stores/all';
 
 const { userSignUp } = useUserAuth();
 const { Show, Hide, GetModal } = useModelMessage();
+const $commonStore = useCommonStore();
 const formSignUp = ref<IUserAuth>({
   name: '',
   email: '',
@@ -108,6 +110,7 @@ const formSignUp = ref<IUserAuth>({
 
 const handleSignUp = async () => {
   try {
+    $commonStore.Add_Request();
     await userSignUp(formSignUp.value);
     Show('SUCCESS', 'Exito!', 'Se guardo correctamente');
 
@@ -116,6 +119,7 @@ const handleSignUp = async () => {
     //   query: { email: form.value.email }
     // })
   } catch (error: any) {
+    $commonStore.Remove_Request();
     Show('ERROR', 'Error', error);
   }
 };

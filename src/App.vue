@@ -2,10 +2,20 @@
   <router-view />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { computed, watch } from 'vue';
 
-export default defineComponent({
-  name: 'App'
-});
+import { useCommonStore } from 'stores/all';
+import { loader } from 'src/support/utils/loader';
+
+const store = useCommonStore();
+const isLoading = computed(() => store.isLoading);
+
+watch(
+  () => isLoading.value,
+  (newVal) => {
+    if (newVal) loader.show();
+    else loader.hide();
+  }
+);
 </script>

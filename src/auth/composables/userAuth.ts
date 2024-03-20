@@ -1,8 +1,12 @@
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import useSupabase from 'boot/supabase';
-import { IUserAuth } from 'src/auth/Models/IUserAuth';
+import { IUserAuth, IUserInfoLogged } from 'src/auth/Models/IUserAuth';
 
 const user = ref<any>(null);
+const userInfoLogged = reactive<IUserInfoLogged>({
+  name: '',
+  email: '',
+});
 
 export default function useUserAuth() {
   const { supabase } = useSupabase();
@@ -35,5 +39,14 @@ export default function useUserAuth() {
     user.value = data;
     return user;
   };
-  return { user, userSignIn, userSignUp };
+  const isLoggedIn = (): boolean => {
+    return !!user.value;
+  };
+
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+  };
+
+  return { user, userSignIn, userSignUp, isLoggedIn, logout, userInfoLogged };
 }

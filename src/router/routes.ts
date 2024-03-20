@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import { routes as authRoutes } from '../auth';
+import { routes as mainRoutes } from '../app';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -17,4 +18,4 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-export default [...routes, ...authRoutes];
+export default [...routes, ...authRoutes, ...mainRoutes];

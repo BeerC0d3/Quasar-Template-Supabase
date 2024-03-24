@@ -1,5 +1,5 @@
 <template>
-  <div id="app-drawer">
+  <div class="app-drawer">
     <q-drawer
       class="bg-secondary"
       v-model="leftDrawerOpen"
@@ -10,40 +10,43 @@
       @hide="(value) => ShowHidden(value)"
     >
       <q-scroll-area class="scroll-content">
-        <!-- <q-list>
-        <MenuRecursive v-for="item in menus" :key="item.id" v-bind="item" />
-      </q-list> -->
-        <p v-for="i in 20" :key="i">
+        <q-list>
+          <MenuRecursive v-for="item in menus" :key="item.id" v-bind="item" />
+        </q-list>
+        <!-- <p v-for="i in 20" :key="i">
           Lorems ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate
           aperiam suscipit blanditiis iusto earum, velit adipisci sequi ex
           ipsum, aut non. Doloremque iusto eius at quibusdam blanditiis ex vero
           eaque?
-        </p>
+        </p> -->
       </q-scroll-area>
       <div class="absolute-top text-center avatar-top">
         <div class="bg-transparent">
           <div class="q-mb-sm avatar-med-circule">
             <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
           </div>
-          <div class="text-weight-bold">{{ userInfoLogged.name }}</div>
-          <div>@rstoenescu</div>
+          <div class="text-weight-bold text-blue-grey-1">
+            {{ userInfoLogged.name }}
+          </div>
         </div>
       </div>
     </q-drawer>
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onBeforeMount, inject, computed, watch } from 'vue';
+import { ref, onBeforeMount, onMounted, inject, computed, watch } from 'vue';
 import { useDrawerStore } from 'src/stores/all';
-import MenuRecursive from '../app/components/Sistema/MenuRecursive.vue';
+import MenuRecursive from '../app/components/System/MenuRecursive.vue';
 // import useHookMenu from '../app/hooks/Sistema/HMenu';
 import { useCommonStore } from 'stores/all';
 import useAuthUser from 'src/auth/composables/userAuth';
+import useMenu from 'src/app/Composables/System/BuildMenu';
 
 const { userInfoLogged } = useAuthUser();
+const { getMenu, menus } = useMenu();
 const $drawerStore = useDrawerStore();
 const leftDrawerOpen = ref(false);
-const bus = inject<any>('bus');
+// const bus = inject<any>('bus');
 
 const ShowHidden = (evt: any) => {
   $drawerStore.setToggle();
@@ -59,7 +62,13 @@ watch(
 
 // const { getAll, menus } = useHookMenu();
 const $commonStore = useCommonStore();
+onBeforeMount(async () => {
+  await getMenu();
+});
 
+// onMounted(() => {
+//   console.log(menus.value);
+// });
 // onBeforeMount(async () => {
 //   try {
 
@@ -72,7 +81,7 @@ const $commonStore = useCommonStore();
 // });
 </script>
 <style lang="scss" scoped>
-#app-drawer {
+.app-drawer {
   @import 'src/css/drawer.scss';
 }
 </style>

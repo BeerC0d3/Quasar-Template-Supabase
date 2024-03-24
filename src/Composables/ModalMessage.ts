@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { IModaleMessage } from 'src/Models/IModel';
+import { IModaleMessage } from 'src/app/Models/System/IModel';
 
 const modal = ref<IModaleMessage>({
   typeMessageClave: '',

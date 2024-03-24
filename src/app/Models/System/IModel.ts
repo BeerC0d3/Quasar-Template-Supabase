@@ -22,10 +22,17 @@ export interface ICatalogo {
 }
 export interface IMenu {
   id: number;
-  titulo: string;
+  icon: string;
+  title: string;
   url: string;
-  icono: string;
-  menuHijos: [];
+  menuChildren: [];
+}
+export interface IMenuEntity {
+  id: number;
+  icon: string;
+  title: string;
+  url: string;
+  parentid: number;
 }
 
 export interface IModaleMessage {

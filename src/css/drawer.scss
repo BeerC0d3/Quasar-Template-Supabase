@@ -36,3 +36,37 @@
 .avatar-top {
   top: 52px;
 }
+.q-item .q-item--click {
+  font-weight: 500;
+}
+.q-expansion-item {
+  border-bottom: 1px dashed #fff;
+}
+
+.icon-color {
+  color: #fff;
+}
+
+.q-focusable .q-hoverable .q-item-active {
+  background-color: #96ad2e;
+  color: #fff;
+}
+
+.q-item.q-router-link--active,
+.q-item--active {
+  color: #fff;
+}
+
+.q-item__section--side {
+  color: #fff !important;
+}
+
+.q-item__section--main ~ .q-item__section--side {
+  color: #fff !important;
+}
+.q-item__section--side .q-icon {
+  color: #fff !important;
+}
+// .q-item:hover {
+//   background-color: #3b5999;
+// }

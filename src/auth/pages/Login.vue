@@ -112,10 +112,9 @@ const loadingTest = () => {
 
 const handleLogin = async () => {
   try {
-    //  $commonStore.Add_Request();
+    $commonStore.Add_Request();
     await userSignIn(formLogin.value);
     $router.push('/app');
-    //console.log('login con exito');
   } catch (error: any) {
     $commonStore.Remove_Request();
     Show('ERROR', 'Error', error);

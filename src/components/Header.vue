@@ -16,7 +16,13 @@
         </div>
 
         <div class="q-pl-sm q-gutter-sm row items-center no-wrap">
-          <q-btn dense flat round icon="fa-solid fa-right-from-bracket" />
+          <q-btn
+            dense
+            flat
+            round
+            icon="fa-solid fa-right-from-bracket"
+            @click="handledLogout"
+          />
 
           <!-- <q-btn v-if="$q.screen.gt.xs" dense flat round icon="apps">
             <q-tooltip>Cambiar sucursal</q-tooltip>
@@ -42,8 +48,12 @@ import { useRouter } from 'vue-router';
 import { useDrawerStore } from 'src/stores/all';
 // import * as useHeader from 'src/support/utils/useHeaderAmount'
 import { useRoute } from 'vue-router';
-
+import useAuthUser from 'src/auth/composables/userAuth';
+import useModelMessage from 'src/Composables/ModalMessage';
 // const $store = useUserStore();
+
+const { logout } = useAuthUser();
+const { Show } = useModelMessage();
 const $router = useRouter();
 const $drawerStore = useDrawerStore();
 // const bus = inject<any>('bus');
@@ -74,10 +84,14 @@ const toggleLeftDrawer = () => {
   $drawerStore.StateToggle(toggle.value);
 };
 
-// const Salir = (): void => {
-//   $store.logout();
-//   $router.push('/auth/login');
-// };
+const handledLogout = async () => {
+  try {
+    await logout();
+    $router.push('/auth/login');
+  } catch (error: any) {
+    Show('ERROR', 'Error', error);
+  }
+};
 </script>
 <style lang="scss" scoped>
 .app-header {

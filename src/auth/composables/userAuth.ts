@@ -1,6 +1,7 @@
 import { reactive, ref } from 'vue';
 import useSupabase from 'boot/supabase';
 import { IUserAuth, IUserInfoLogged } from 'src/auth/Models/IUserAuth';
+import { useCommonStore } from 'src/stores/all';
 
 const user = ref<any>(null);
 const userInfoLogged = reactive<IUserInfoLogged>({
@@ -10,6 +11,7 @@ const userInfoLogged = reactive<IUserInfoLogged>({
 
 export default function useUserAuth() {
   const { supabase } = useSupabase();
+  const $commonStore = useCommonStore();
 
   const userSignIn = async (modelUserAuth: IUserAuth) => {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -18,8 +20,10 @@ export default function useUserAuth() {
     });
 
     if (error) throw error;
-
     user.value = data;
+
+    $commonStore.Remove_Request();
+
     return user;
   };
 
@@ -35,8 +39,10 @@ export default function useUserAuth() {
     });
 
     if (error) throw error;
-
     user.value = data;
+
+    $commonStore.Remove_Request();
+
     return user;
   };
   const isLoggedIn = (): boolean => {

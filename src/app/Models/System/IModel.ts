@@ -20,12 +20,19 @@ export interface ICatalogo {
   clave: string;
   descripcion: string;
 }
+export interface ICatalog {
+  id: number;
+  catkey: string;
+  catname: string;
+  isdeleted: boolean;
+  createdate: Date;
+}
 export interface IMenu {
   id: number;
   icon: string;
   title: string;
   url: string;
-  menuChildren: [];
+  menuChildren: IMenu[];
 }
 export interface IMenuEntity {
   id: number;
@@ -45,4 +52,11 @@ export interface ISwiper {
   id: number;
   nombre: string;
   selected: boolean;
+}
+export interface ISlideItem {
+  title: string;
+  subTitle: string;
+  titleSideTop: string;
+  titleSideBottom: string;
+  iconSide: string;
 }

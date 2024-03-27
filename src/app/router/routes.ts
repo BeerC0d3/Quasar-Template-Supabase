@@ -10,23 +10,20 @@ export default [
         component: () => import('../pages/Home.vue'),
         //meta: { requireLogin: true },
       },
-      // {
-      //   path: 'Periodos',
-      //   children: [
-
-      //     {
-
-      //       path: '',
-      //       component: () => import('../pages/Periodos/ListPeriodo.vue'),
-
-      //     },
-      //     {
-      //       path: 'add-edit',
-      //       component: () => import('../pages/Periodos/AddEdit.vue'),
-      //       //meta: { requireLogin: true },
-      //     },
-      //   ],
-      // },
+      {
+        path: 'System',
+        children: [
+          {
+            path: 'Catalog',
+            component: () => import('../pages/System/Catalog.vue'),
+          },
+          // {
+          //   path: 'add-edit',
+          //   component: () => import('../pages/Periodos/AddEdit.vue'),
+          //   //meta: { requireLogin: true },
+          // },
+        ],
+      },
       // {
       //   path: 'Usuarios',
       //   children: [

@@ -36,6 +36,7 @@
                   :rules="[
                     (val) => (val && val.length > 0) || 'Password es requerido',
                   ]"
+                  type="password"
                 >
                   <template v-slot:prepend>
                     <q-icon name="lock" color="primary" />

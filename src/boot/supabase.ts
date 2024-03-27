@@ -9,7 +9,7 @@ const supabase = createClient<any>(supabaseUrl, supabaseKey);
 supabase.auth.onAuthStateChange((event, session) => {
   const { user, userInfoLogged } = useAuthUser();
 
-  console.log(session?.user.user_metadata);
+  // console.log(session?.user.user_metadata);
   userInfoLogged.name = session?.user.user_metadata.name;
   userInfoLogged.email = session?.user.user_metadata.email;
   user.value = session?.user || null;

@@ -33,6 +33,7 @@ const CreateMenuChildren = (
   menuParentId: number
 ): any[] => {
   const menuChildren = ref<IMenu[]>([]);
+  menuChildren.value = [];
   const listChildren = menuEntity.filter((item) => {
     return item.parentid == menuParentId;
   });

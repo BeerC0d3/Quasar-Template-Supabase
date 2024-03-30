@@ -9,7 +9,12 @@
       :style="`visibility:${visibility};`"
     >
       <div :style="`transform: scale(${scale});`">
-        <q-btn flat icon="fa-regular fa-pen-to-square" size="md" />
+        <q-btn
+          flat
+          icon="fa-regular fa-pen-to-square"
+          size="md"
+          @click="clickButtons('Edit', props.slideItem.rowId)"
+        />
         <q-btn flat icon="fa-regular fa-trash-can" size="md" />
       </div>
     </div>
@@ -71,12 +76,11 @@ const props = defineProps({
   //   type: Function,
   //   required: true,
 
-  // },
-  // edit: {
-  //   type: Function,
-  //   required: true,
-
-  // },
+  //},
+  edit: {
+    type: Function,
+    required: true,
+  },
 });
 
 const swipeLeft = (obj: any) => {
@@ -92,6 +96,10 @@ const swipeRight = (obj: any) => {
 const swipeReset = () => {
   itemOffset.value = 0;
   scale.value = 0;
+};
+const clickButtons = (button: string, rowId: number) => {
+  if (button == 'Edit') props.edit(rowId);
+  swipeReset();
 };
 </script>
 <style lang="scss">

@@ -7,44 +7,51 @@
       <div class="row q-mb-md">
         <span class="text-h6 text-primary"> Cátalogo </span>
         <q-space />
-        <q-btn round icon="add" color="secondary" />
+        <q-btn round icon="add" color="secondary" @click="clickModalForm" />
       </div>
+      <empty-data
+        icon="fa-solid fa-pager"
+        label="No hay ningún cátalogo."
+        v-if="listCatalog.length == 0"
+      />
       <useSlideItem
         v-for="catalog in listCatalog"
         :key="catalog.id"
         :slide-item="{
+          rowId: catalog.id,
           title: catalog.catname,
           subTitle: catalog.catkey,
           titleSideTop: '',
           titleSideBottom: '',
           iconSide: '',
         }"
+        :edit="fnEdit"
       />
     </div>
   </page-body>
+  <useCatalogFormModal />
   <modal-message :modal="GetModal().value" @close="Hide()" />
 </template>
 <script setup lang="ts">
-import { ref, onBeforeMount, onMounted } from 'vue';
+import { ref, onBeforeMount, inject } from 'vue';
 import useSlideItem from 'src/app/components/System/SlideItem.vue';
 import useApi from 'src/app/Composables/UseApi';
 import { ICatalog } from 'src/app/Models/System/IModel';
+import useCatalogFormModal from 'src/app/components/System/CatalogAddEdit.vue';
 import useModelMessage from 'src/Composables/ModalMessage';
-import { useCommonStore } from 'src/stores/all';
+import { useModalStore, useCommonStore } from 'src/stores/all';
 
 const { Show, Hide, GetModal } = useModelMessage();
-const { TableToList, insertData, updateData } = useApi();
+const { TableToList } = useApi();
 const $commonStore = useCommonStore();
+const $modalStore = useModalStore();
+const bus = inject<any>('bus');
 
 const listCatalog = ref<ICatalog[]>([]);
-let today = new Date();
-const formCatalog = ref<object>({
-  id: 4,
-  catkey: 'TEST5',
-  catname: 'Prueba 5Xiyu',
-  isdeleted: false,
-  createdate: today,
-});
+
+const clickModalForm = () => {
+  $modalStore.ShowModal(0);
+};
 
 const getCatalog = async () => {
   try {
@@ -57,18 +64,16 @@ const getCatalog = async () => {
 };
 
 onBeforeMount(async () => {
-  await InsertTest();
+  //await InsertTest();
   await getCatalog();
 });
-
-const InsertTest = async () => {
-  try {
-    $commonStore.Add_Request();
-    await updateData('system', 'catalog', formCatalog.value);
-  } catch (error: any) {
-    $commonStore.Remove_Request();
-    Show('ERROR', 'Error', error);
-  }
+const fnEdit = (rowId: number) => {
+  console.log(rowId);
+  $modalStore.ShowModal(rowId);
 };
+
+bus.on('load-catalog', async () => {
+  await getCatalog();
+});
 </script>
 <style lang="scss"></style>

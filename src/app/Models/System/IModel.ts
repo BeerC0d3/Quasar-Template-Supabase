@@ -54,6 +54,7 @@ export interface ISwiper {
   selected: boolean;
 }
 export interface ISlideItem {
+  rowId: number;
   title: string;
   subTitle: string;
   titleSideTop: string;

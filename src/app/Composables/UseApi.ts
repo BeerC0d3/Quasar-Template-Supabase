@@ -33,5 +33,16 @@ export default function useApi() {
     return data;
   };
 
-  return { TableToList, insertData, updateData };
+  const getById = async (schema: string, table: string, rowId: number) => {
+    const { data, error } = await supabase
+      .schema(schema)
+      .from(table)
+      .select('*')
+      .eq('id', rowId);
+    if (error) throw error;
+    $commonStore.Remove_Request();
+    return data[0];
+  };
+
+  return { TableToList, insertData, updateData, getById };
 }

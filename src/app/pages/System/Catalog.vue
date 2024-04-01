@@ -51,6 +51,7 @@ const listCatalog = ref<ICatalog[]>([]);
 
 const clickModalForm = () => {
   $modalStore.ShowModal(0);
+  // $modalStore.Cancel(false);
 };
 
 const getCatalog = async () => {
@@ -68,7 +69,7 @@ onBeforeMount(async () => {
   await getCatalog();
 });
 const fnEdit = (rowId: number) => {
-  console.log(rowId);
+  //console.log(rowId);
   $modalStore.ShowModal(rowId);
 };
 

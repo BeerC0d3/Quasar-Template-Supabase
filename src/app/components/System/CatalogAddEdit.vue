@@ -2,8 +2,9 @@
   <modal-form>
     <template #seccion-button-save>
       <q-btn
-        flat
-        dense
+        unelevated
+        rounded
+        no-caps
         color="primary"
         label="Guardar"
         @click="onValidation"
@@ -42,15 +43,23 @@
 import { ref, inject, computed, watch } from 'vue';
 import useApi from 'src/app/Composables/UseApi';
 import { useModalStore, useCommonStore } from 'src/stores/all';
+import { useRemoveProperty } from 'src/support/utils/RemoveAddPropertyObject';
 import useModelMessage from 'src/Composables/ModalMessage';
+import { IPropertyObject } from 'src/app/Models/System/IModel';
+import { date } from 'quasar';
 
 let today = new Date();
+
+const timeStamp = Date.now();
 const formCatalog = ref<any>(null);
+// const propertyAdd = ref<IPropertyObject[]>([{
+//   key:'createdate',
+//   value=
+// }])
 const objectCatalog = ref({
   catkey: '',
   catname: '',
   isdeleted: false,
-  createdate: today,
 });
 
 const { Show, Hide, GetModal } = useModelMessage();
@@ -60,6 +69,7 @@ const { insertData, updateData, getById } = useApi();
 const bus = inject<any>('bus');
 
 const isChangeId = computed(() => $modalStore.getId);
+const isCancelCompute = computed(() => $modalStore.stateCancel);
 watch(
   () => isChangeId.value,
   (newVal) => {
@@ -67,12 +77,18 @@ watch(
     else reset();
   }
 );
+watch(
+  () => isCancelCompute.value,
+  (newVal) => {
+    if (newVal) reset();
+  }
+);
 
 const loadData = async () => {
   if ($modalStore.getId > 0) {
     $commonStore.Add_Request();
     objectCatalog.value = await getById('system', 'catalog', $modalStore.getId);
-    console.log(objectCatalog.value);
+    //  console.log(objectCatalog.value);
     // seccionModel.value = seccionResult.value;
   } else reset();
 };
@@ -82,9 +98,29 @@ const onValidation = async (evt: any) => {
     if (success) {
       try {
         $commonStore.Add_Request();
-        if ($modalStore.getId > 0)
-          await updateData('system', 'catalog', objectCatalog.value);
-        else await insertData('system', 'catalog', objectCatalog.value);
+        let objectProcessed = null;
+
+        if ($modalStore.getId > 0) {
+          objectProcessed = useRemoveProperty.removeAddProperty(
+            ['createdate'],
+            [],
+            objectCatalog.value
+          );
+
+          await updateData('system', 'catalog', objectProcessed);
+        } else {
+          objectProcessed = useRemoveProperty.removeAddProperty(
+            ['id'],
+            [
+              {
+                key: 'createdate',
+                value: date.formatDate(timeStamp, 'YYYY-MM-DD'),
+              },
+            ],
+            objectCatalog.value
+          );
+          await insertData('system', 'catalog', objectProcessed);
+        }
 
         formCatalog.value.reset();
         formCatalog.value.resetValidation();
@@ -103,11 +139,12 @@ const onValidation = async (evt: any) => {
 };
 
 const reset = () => {
-  if ($modalStore.getId == 0 || undefined) {
+  if ($modalStore.getId == 0 || $modalStore.stateCancel || undefined) {
     //objectCatalog.value.id?=0;
     objectCatalog.value.catkey = '';
     objectCatalog.value.catname = '';
-    formCatalog.value.reset();
+    //formCatalog.value.reset();
+
     // seccionModel.value.id = 0;
     // seccionModel.value.nombre = '';
   }

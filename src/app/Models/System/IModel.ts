@@ -61,3 +61,8 @@ export interface ISlideItem {
   titleSideBottom: string;
   iconSide: string;
 }
+
+export interface IPropertyObject {
+  key: string;
+  value: string;
+}

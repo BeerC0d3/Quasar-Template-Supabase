@@ -4,12 +4,21 @@
     v-model="isShow"
     class="q-dialog__inner--fullheight"
     position="bottom"
-    @hide="(value) => SetState(value)"
+    @hide="(value) => SetState(value, false)"
+    persistent
   >
     <q-card class="custom-dialog-radius card-mt" :style="width">
       <q-card-section style="display: flex; padding: 5px !important">
         <q-toolbar>
-          <q-btn flat dense color="orange" label="Cancelar" v-close-popup />
+          <q-btn
+            unelevated
+            rounded
+            no-caps
+            color="secondary"
+            label="Cancelar"
+            v-close-popup
+            @click="(value) => SetState(value, true)"
+          />
           <q-space />
           <div class="text-center text-subtitle2">
             <slot name="seccion-title" />
@@ -44,7 +53,8 @@ const $q = useQuasar();
 const isShow = ref(false);
 const emit = defineEmits(['close']);
 
-const SetState = (evt: any) => {
+const SetState = (evt: any, isCancel: boolean) => {
+  $modalStore.Cancel(true);
   $modalStore.HideModal();
 };
 

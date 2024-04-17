@@ -69,3 +69,14 @@
     rgba(252, 176, 69, 1) 100%
   ) !important;
 }
+.auth-image .img {
+  position: absolute;
+  right: 20px;
+  bottom: 350px;
+  z-index: 1;
+  width: calc(115px + 10 * (100vw - 320px) / 447);
+}
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}

@@ -26,6 +26,7 @@
           iconSide: '',
         }"
         :edit="fnEdit"
+        :to="fnRouteTo"
       />
     </div>
   </page-body>
@@ -34,6 +35,7 @@
 </template>
 <script setup lang="ts">
 import { ref, onBeforeMount, inject } from 'vue';
+import { useRouter } from 'vue-router';
 import useSlideItem from 'src/app/components/System/SlideItem.vue';
 import useApi from 'src/app/Composables/UseApi';
 import { ICatalog } from 'src/app/Models/System/IModel';
@@ -45,6 +47,7 @@ const { Show, Hide, GetModal } = useModelMessage();
 const { TableToList } = useApi();
 const $commonStore = useCommonStore();
 const $modalStore = useModalStore();
+const router = useRouter();
 const bus = inject<any>('bus');
 
 const listCatalog = ref<ICatalog[]>([]);
@@ -71,6 +74,10 @@ onBeforeMount(async () => {
 const fnEdit = (rowId: number) => {
   //console.log(rowId);
   $modalStore.ShowModal(rowId);
+};
+const fnRouteTo = (rowId: number) => {
+  router.push({ name: 'catalog-detail', params: { id: rowId } });
+  //router.push('/app/System/CatalogDetail');
 };
 
 bus.on('load-catalog', async () => {

@@ -3,6 +3,7 @@
     class="q-slide-item q-item-type overflow-hidden slide-item-bt"
     v-touch-swipe.mouse.left.prevent="swipeLeft"
     v-touch-swipe.mouse.right.prevent="swipeRight"
+    @click="clickSlide(props.slideItem.rowId)"
   >
     <div
       class="q-slide-item__right absolute-full row no-wrap items-center justify-end"
@@ -13,7 +14,7 @@
           flat
           icon="fa-regular fa-pen-to-square"
           size="md"
-          @click="clickButtons('Edit', props.slideItem.rowId)"
+          @click.prevent.stop="clickButtons('Edit', props.slideItem.rowId)"
         />
         <q-btn flat icon="fa-regular fa-trash-can" size="md" />
       </div>
@@ -65,6 +66,7 @@ import { ISlideItem } from 'src/app/Models/System/IModel';
 let itemOffset = ref(0);
 let scale = ref(0);
 let visibility = ref('hidden');
+const isSwipe = ref(false);
 const $q = useQuasar();
 
 const props = defineProps({
@@ -81,16 +83,28 @@ const props = defineProps({
     type: Function,
     required: true,
   },
+  to: {
+    type: Function,
+    required: true,
+  },
 });
 
+const clickSlide = (rowId: number) => {
+  if (isSwipe.value) swipeReset();
+  else props.to(rowId);
+};
+
 const swipeLeft = (obj: any) => {
+  if (isSwipe.value) swipeReset();
   itemOffset.value = -140;
   scale.value = 1;
+  isSwipe.value = true;
   visibility.value = 'visible';
 };
 const swipeRight = (obj: any) => {
   itemOffset.value = 0;
   scale.value = 0;
+  isSwipe.value = false;
 };
 
 const swipeReset = () => {

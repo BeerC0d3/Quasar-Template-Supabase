@@ -7,7 +7,10 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     meta: { requireLogin: true },
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    children: [
+      { path: '', redirect: '/app' },
+      { path: '', component: () => import('pages/IndexPage.vue') },
+    ],
   },
 
   // Always leave this as last one,

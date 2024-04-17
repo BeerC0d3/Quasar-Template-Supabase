@@ -11,11 +11,16 @@ export default [
         //meta: { requireLogin: true },
       },
       {
-        path: 'System',
+        path: 'Catalog',
         children: [
           {
-            path: 'Catalog',
+            path: '',
             component: () => import('../pages/System/Catalog.vue'),
+          },
+          {
+            name: 'catalog-detail',
+            path: 'CatalogDetail/:id?',
+            component: () => import('../pages/System/CatalogDetail.vue'),
           },
           // {
           //   path: 'add-edit',

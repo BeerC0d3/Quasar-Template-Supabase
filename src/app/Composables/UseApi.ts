@@ -12,6 +12,7 @@ export default function useApi() {
 
     return data;
   };
+
   const insertData = async (schema: string, table: string, data: any) => {
     const { error } = await supabase
       .schema(schema)

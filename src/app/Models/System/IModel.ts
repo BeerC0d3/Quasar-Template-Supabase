@@ -27,6 +27,14 @@ export interface ICatalog {
   isdeleted: boolean;
   createdate: Date;
 }
+export interface ICatalogDetail {
+  id: number;
+  catid: number;
+  catdetkey: string;
+  catdename: string;
+  isdeleted: boolean;
+  createdate: Date;
+}
 export interface IMenu {
   id: number;
   icon: string;
@@ -63,6 +71,10 @@ export interface ISlideItem {
 }
 
 export interface IPropertyObject {
+  key: string;
+  value: string;
+}
+export interface IParamsQuery {
   key: string;
   value: string;
 }

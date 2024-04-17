@@ -3,6 +3,10 @@
     <div class="container-template">
       <div class="row justify-center items-center content-center">
         <q-card class="q-ma-none auth-form shadow-1">
+          <div class="auth-image">
+            <img class="img-fluid img" src="~assets/money.svg" alt="v1" />
+          </div>
+
           <q-card-section>
             <p class="text-weight-bolder text-center text-grey-13">
               Accesar al sistema

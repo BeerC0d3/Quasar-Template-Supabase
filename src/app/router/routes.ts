@@ -11,10 +11,11 @@ export default [
         //meta: { requireLogin: true },
       },
       {
-        path: 'Catalog',
+        path: 'System',
+        redirect: '/app/System/Catalog',
         children: [
           {
-            path: '',
+            path: 'Catalog',
             component: () => import('../pages/System/Catalog.vue'),
           },
           {

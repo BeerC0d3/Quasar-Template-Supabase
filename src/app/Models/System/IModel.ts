@@ -31,7 +31,7 @@ export interface ICatalogDetail {
   id: number;
   catid: number;
   catdetkey: string;
-  catdename: string;
+  catdetname: string;
   isdeleted: boolean;
   createdate: Date;
 }

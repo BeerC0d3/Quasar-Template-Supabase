@@ -53,8 +53,7 @@ const bus = inject<any>('bus');
 const listCatalog = ref<ICatalog[]>([]);
 
 const clickModalForm = () => {
-  $modalStore.ShowModal(0);
-  // $modalStore.Cancel(false);
+  $modalStore.ShowModal(1, [{ key: 'id', value: '0' }]);
 };
 
 const getCatalog = async () => {
@@ -68,16 +67,13 @@ const getCatalog = async () => {
 };
 
 onBeforeMount(async () => {
-  //await InsertTest();
   await getCatalog();
 });
 const fnEdit = (rowId: number) => {
-  //console.log(rowId);
-  $modalStore.ShowModal(rowId);
+  $modalStore.ShowModal(rowId, [{ key: 'id', value: rowId.toString() }]);
 };
 const fnRouteTo = (rowId: number) => {
-  router.push({ name: 'catalog-detail', params: { id: rowId } });
-  //router.push('/app/System/CatalogDetail');
+  router.push({ name: 'catalog-detail', params: { catid: rowId } });
 };
 
 bus.on('load-catalog', async () => {

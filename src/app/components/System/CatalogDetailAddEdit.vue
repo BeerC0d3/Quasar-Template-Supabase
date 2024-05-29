@@ -12,24 +12,27 @@
       />
     </template>
     <template #seccion-title>
-      {{ $modalStore.getId > 0 ? objectCatalog.catname : 'Agregar cátalogo' }}
+      {{
+        $modalStore.getId > 0
+          ? objectCatalogDetail.catdetname
+          : 'Agregar elemento'
+      }}
     </template>
     <template #seccion-form>
       <q-form class="row q-col-gutter-sm" ref="formCatalog">
         <q-input
           dense
           outlined
-          v-model="objectCatalog.catkey"
-          label="Clave cátalogo"
+          v-model="objectCatalogDetail.catdetkey"
+          label="Clave"
           lazy-rules
           class="col-lg-12 col-md-6 col-xs-12"
-          :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']"
         />
         <q-input
           dense
           outlined
-          v-model="objectCatalog.catname"
-          label="Nombre cátalogo"
+          v-model="objectCatalogDetail.catdetname"
+          label="Nombre elemento"
           lazy-rules
           class="col-lg-12 col-md-6 col-xs-12"
           :rules="[(val) => (val && val.length > 0) || 'Campo obligatorio']"
@@ -53,13 +56,12 @@ let today = new Date();
 const timeStamp = Date.now();
 const formCatalog = ref<any>(null);
 const id = ref(0);
-// const propertyAdd = ref<IPropertyObject[]>([{
-//   key:'createdate',
-//   value=
-// }])
-const objectCatalog = ref({
-  catkey: '',
-  catname: '',
+const catid = ref(0);
+
+const objectCatalogDetail = ref({
+  catid: 0,
+  catdetkey: '',
+  catdetname: '',
   isdeleted: false,
 });
 
@@ -71,6 +73,7 @@ const bus = inject<any>('bus');
 
 const isChangeId = computed(() => $modalStore.stateMode);
 const isCancelCompute = computed(() => $modalStore.stateCancel);
+
 watch(
   () => isChangeId.value,
   (newVal) => {
@@ -86,13 +89,19 @@ watch(
 );
 
 const loadData = async () => {
-  $modalStore.stateParams.forEach(async (item: IPropertyObject) => {
-    if (item.key == 'id' && parseInt(item.value) > 0) {
-      $commonStore.Add_Request();
-      id.value = parseInt(item.value);
-      objectCatalog.value = await getById('system', 'catalog', id.value);
-    } else reset();
+  $modalStore.stateParams.forEach((item: IPropertyObject) => {
+    if (item.key == 'id') id.value = parseInt(item.value);
+    if (item.key == 'catid') catid.value = parseInt(item.value);
   });
+
+  if (id.value > 0) {
+    $commonStore.Add_Request();
+    objectCatalogDetail.value = await getById(
+      'system',
+      'catalogdetail',
+      id.value
+    );
+  } else reset();
 };
 
 const onValidation = async (evt: any) => {
@@ -101,15 +110,16 @@ const onValidation = async (evt: any) => {
       try {
         $commonStore.Add_Request();
         let objectProcessed = null;
+        objectCatalogDetail.value.catid = catid.value;
 
         if (id.value > 0) {
           objectProcessed = useRemoveProperty.removeAddProperty(
             ['createdate'],
             [],
-            objectCatalog.value
+            objectCatalogDetail.value
           );
 
-          await updateData('system', 'catalog', objectProcessed);
+          await updateData('system', 'catalogdetail', objectProcessed);
         } else {
           objectProcessed = useRemoveProperty.removeAddProperty(
             ['id'],
@@ -119,14 +129,14 @@ const onValidation = async (evt: any) => {
                 value: date.formatDate(timeStamp, 'YYYY-MM-DD'),
               },
             ],
-            objectCatalog.value
+            objectCatalogDetail.value
           );
-          await insertData('system', 'catalog', objectProcessed);
+          await insertData('system', 'catalogdetail', objectProcessed);
         }
 
         formCatalog.value.reset();
         formCatalog.value.resetValidation();
-        bus.emit('load-catalog');
+        bus.emit('load-catalog-detail');
         reset();
         Show('SUCCESS', 'Exito!', 'El catalogo se guardó correctamente');
         $modalStore.HideModal();
@@ -142,8 +152,8 @@ const onValidation = async (evt: any) => {
 
 const reset = () => {
   if ($modalStore.stateCancel || undefined) {
-    objectCatalog.value.catkey = '';
-    objectCatalog.value.catname = '';
+    objectCatalogDetail.value.catdetkey = '';
+    objectCatalogDetail.value.catdetname = '';
   }
 };
 </script>

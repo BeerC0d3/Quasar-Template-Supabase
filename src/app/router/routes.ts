@@ -20,7 +20,7 @@ export default [
           },
           {
             name: 'catalog-detail',
-            path: 'CatalogDetail/:id?',
+            path: 'CatalogDetail/:catid?',
             component: () => import('../pages/System/CatalogDetail.vue'),
           },
           // {

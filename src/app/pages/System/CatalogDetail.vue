@@ -26,7 +26,8 @@
           subTitle: catalog.catdetkey,
           titleSideTop: '',
           titleSideBottom: '',
-          iconSide: '',
+          iconSide: false,
+          avatar: false,
         }"
         :edit="fnEdit"
         :to="fnRouteTo"

@@ -26,6 +26,7 @@
       <div class="q-item q-item-type row no-wrap" role="listitem">
         <div
           class="q-item__section column q-item__section--side justify-center q-item__section--avatar"
+          v-if="props.slideItem.avatar"
         >
           <div class="q-avatar">
             <div class="q-avatar__content row flex-center overflow-hidden">
@@ -52,6 +53,7 @@
             icon="fa-solid fa-chevron-right"
             color="primary"
             size="1em"
+            v-if="props.slideItem.iconSide"
           />
         </div>
       </div>

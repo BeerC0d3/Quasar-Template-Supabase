@@ -67,7 +67,8 @@ export interface ISlideItem {
   subTitle: string;
   titleSideTop: string;
   titleSideBottom: string;
-  iconSide: string;
+  iconSide: boolean;
+  avatar: boolean;
 }
 
 export interface IPropertyObject {

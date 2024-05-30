@@ -23,7 +23,8 @@
           subTitle: catalog.catkey,
           titleSideTop: '',
           titleSideBottom: '',
-          iconSide: '',
+          iconSide: true,
+          avatar: false,
         }"
         :edit="fnEdit"
         :to="fnRouteTo"
